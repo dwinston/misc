@@ -4,13 +4,13 @@
 
 Network Working Group                                           J. Kunze
 Internet-Draft                                California Digital Library
-Intended status: Informational                                 E. Bermes
-Expires: August 25, 2021                Bibliotheque nationale de France
-                                                       February 21, 2021
+Intended status: Informational                                 E. Bermès
+Expires: 12 April 2022                  Bibliothèque nationale de France
+                                                          9 October 2021
 
 
                        The ARK Identifier Scheme
-                           draft-kunze-ark-27
+                           draft-kunze-ark-29
 
 Abstract
 
@@ -24,7 +24,7 @@ Abstract
    scheme and to any single identifier that conforms to it.  An ARK has
    five components:
 
-   [https://NMA/]ark:[/]NAAN/Name[Qualifier]
+   [https://NMA/]ark:[/]NAAN/Name[Qualifiers]
 
    an optional and mutable Name Mapping Authority (usually a hostname),
    the "ark:" label, the Name Assigning Authority Number (NAAN), the
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Kunze & Bermes           Expires August 25, 2021                [Page 1]
+Kunze & Bermès            Expires 12 April 2022                 [Page 1]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
 
    Internet-Drafts are draft documents valid for a maximum of six months
@@ -63,7 +63,7 @@ Internet-Draft                     ARK                     February 2021
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 25, 2021.
+   This Internet-Draft will expire on 12 April 2022.
 
 Copyright Notice
 
@@ -71,65 +71,66 @@ Copyright Notice
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.
 
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Reasons to Use ARKs . . . . . . . . . . . . . . . . . . .   4
      1.2.  Three Requirements of ARKs  . . . . . . . . . . . . . . .   5
-     1.3.  Organizing Support for ARKs:  Our Stuff vs. Their Stuff .   6
+     1.3.  Organizing Support for ARKs: Our Stuff vs. Their Stuff  .   7
      1.4.  Definition of Identifier  . . . . . . . . . . . . . . . .   8
    2.  ARK Anatomy . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     2.1.  The Name Mapping Authority (NMA)  . . . . . . . . . . . .   9
-     2.2.  The ARK Label Part (ark:) . . . . . . . . . . . . . . . .  11
-     2.3.  The Name Assigning Authority Number (NAAN)  . . . . . . .  11
-     2.4.  The Name Part . . . . . . . . . . . . . . . . . . . . . .  12
-       2.4.1.  Optional: Shoulder and Blade  . . . . . . . . . . . .  13
-     2.5.  The Qualifier Part  . . . . . . . . . . . . . . . . . . .  14
-       2.5.1.  ARKs that Reveal Object Hierarchy . . . . . . . . . .  15
-       2.5.2.  ARKs that Reveal Object Variants  . . . . . . . . . .  16
-     2.6.  Character Repertoires . . . . . . . . . . . . . . . . . .  18
-     2.7.  Normalization and Lexical Equivalence . . . . . . . . . .  19
-   3.  Naming Considerations . . . . . . . . . . . . . . . . . . . .  20
-     3.1.  ARKS Embedded in Language . . . . . . . . . . . . . . . .  20
-     3.2.  Objects Should Wear Their Identifiers . . . . . . . . . .  21
-     3.3.  Names are Political, not Technological  . . . . . . . . .  21
-     3.4.  Choosing a Hostname or NMA  . . . . . . . . . . . . . . .  21
-     3.5.  Assigners of ARKs . . . . . . . . . . . . . . . . . . . .  23
-     3.6.  NAAN Namespace Management . . . . . . . . . . . . . . . .  24
-     3.7.  Sub-Object Naming . . . . . . . . . . . . . . . . . . . .  25
-   4.  Finding a Name Mapping Authority  . . . . . . . . . . . . . .  25
-     4.1.  Looking Up NMAs in a Globally Accessible File . . . . . .  27
-   5.  Generic ARK Service Definition  . . . . . . . . . . . . . . .  27
+     2.1.  The Name Mapping Authority (NMA)  . . . . . . . . . . . .  11
+     2.2.  The ARK Label Part (ark:) . . . . . . . . . . . . . . . .  12
+     2.3.  The Name Assigning Authority Number (NAAN)  . . . . . . .  13
+     2.4.  The Name Part . . . . . . . . . . . . . . . . . . . . . .  15
+       2.4.1.  Optional: Shoulders . . . . . . . . . . . . . . . . .  15
+     2.5.  The Qualifier Part  . . . . . . . . . . . . . . . . . . .  17
+       2.5.1.  ARKs that Reveal Object Hierarchy . . . . . . . . . .  18
+       2.5.2.  ARKs that Reveal Object Variants  . . . . . . . . . .  19
+     2.6.  Character Repertoires . . . . . . . . . . . . . . . . . .  21
+     2.7.  Normalization and Lexical Equivalence . . . . . . . . . .  22
+     2.8.  Resolver Chains . . . . . . . . . . . . . . . . . . . . .  23
+   3.  Naming Considerations . . . . . . . . . . . . . . . . . . . .  24
+     3.1.  ARKS and Usability  . . . . . . . . . . . . . . . . . . .  24
+     3.2.  Objects Should Wear Their Identifiers . . . . . . . . . .  24
+     3.3.  Names are Political, not Technological  . . . . . . . . .  24
+     3.4.  Choosing a Hostname or NMA  . . . . . . . . . . . . . . .  25
+     3.5.  Assigners of ARKs . . . . . . . . . . . . . . . . . . . .  26
+     3.6.  NAAN Namespace Management . . . . . . . . . . . . . . . .  27
+     3.7.  Sub-Object Naming . . . . . . . . . . . . . . . . . . . .  28
+   4.  Finding a Name Mapping Authority  . . . . . . . . . . . . . .  29
+     4.1.  Looking Up NMAs in a Globally Accessible File . . . . . .  30
+   5.  Generic ARK Service Definition  . . . . . . . . . . . . . . .  31
 
 
 
-Kunze & Bermes           Expires August 25, 2021                [Page 2]
+Kunze & Bermès            Expires 12 April 2022                 [Page 2]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
 
-     5.1.  Generic ARK Access Service (access, location) . . . . . .  27
-       5.1.1.  Generic Policy Service (permanence, naming, etc.) . .  28
-       5.1.2.  Generic Description Service . . . . . . . . . . . . .  30
-     5.2.  Overview of The HTTP URL Mapping Protocol (THUMP) . . . .  30
-     5.3.  The Electronic Resource Citation (ERC)  . . . . . . . . .  33
-     5.4.  Advice to Web Clients . . . . . . . . . . . . . . . . . .  34
-     5.5.  Security Considerations . . . . . . . . . . . . . . . . .  35
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  35
-   Appendix A.  ARK Maintenance Agency: arks.org . . . . . . . . . .  38
-   Appendix B.  Looking up NMAs Distributed via DNS  . . . . . . . .  38
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  41
+     5.1.  Generic ARK Access Service (access, location) . . . . . .  31
+       5.1.1.  Generic Policy Service (permanence, naming, etc.) . .  32
+       5.1.2.  Generic Description Service . . . . . . . . . . . . .  34
+     5.2.  Overview of The HTTP URL Mapping Protocol (THUMP) . . . .  34
+     5.3.  The Electronic Resource Citation (ERC)  . . . . . . . . .  36
+     5.4.  Advice to Web Clients . . . . . . . . . . . . . . . . . .  38
+     5.5.  Enhancements and Related Specifications . . . . . . . . .  39
+     5.6.  Security Considerations . . . . . . . . . . . . . . . . .  39
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  39
+   Appendix A.  ARK Maintenance Agency: arks.org . . . . . . . . . .  42
+   Appendix B.  Looking up NMAs Distributed via DNS  . . . . . . . .  42
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  44
 
 1.  Introduction
 
-   [ Note about this transitional draft.  The ARKsInTheOpen.org
-   Technical Working Group (https://wiki.duraspace.org/display/ARKs/
+   [ Note about this transitional draft.  The ARK Alliance Technical
+   Working Group (https://wiki.lyrasis.org/display/ARKs/
    Technical+Working+Group) is in the process of revising the ARK spec
    via a series of Internet-Drafts.  This draft contains many minor but
    noisy changes (lots of diffs but not much real change).  While the
@@ -164,10 +165,9 @@ Internet-Draft                     ARK                     February 2021
 
 
 
-
-Kunze & Bermes           Expires August 25, 2021                [Page 3]
+Kunze & Bermès            Expires 12 April 2022                 [Page 3]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
 
    A founding principle of the ARK is that persistence is purely a
@@ -201,7 +201,7 @@ Internet-Draft                     ARK                     February 2021
    forward burden for the preservation community.  It is for this reason
    that the ARK scheme relies only on educated name assignment and light
    use of general-purpose infrastructures that are maintained mostly by
-   the internet community at large (the DNS, web servers, and web
+   the Internet community at large (the DNS, web servers, and web
    browsers).
 
 1.1.  Reasons to Use ARKs
@@ -221,9 +221,9 @@ Internet-Draft                     ARK                     February 2021
 
 
 
-Kunze & Bermes           Expires August 25, 2021                [Page 4]
+Kunze & Bermès            Expires 12 April 2022                 [Page 4]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
 
    The form of the ARK also supports the natural separation of naming
@@ -240,7 +240,7 @@ Internet-Draft                     ARK                     February 2021
    disposeable and replaceable.  Again, the form of the ARK helps
    because it defines exactly how to recover the core immutable object
    identity, and simple algorithms (one based on the URN model) or even
-   by-hand internet query can be used for for locating another mapping
+   by-hand Internet query can be used for for locating another mapping
    authority.
 
    There are tools to assist in generating ARKs and other identifiers,
@@ -277,9 +277,9 @@ Internet-Draft                     ARK                     February 2021
 
 
 
-Kunze & Bermes           Expires August 25, 2021                [Page 5]
+Kunze & Bermès            Expires 12 April 2022                 [Page 5]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
 
    itself might not include a matching identifier or might not carry
@@ -323,6 +323,21 @@ Internet-Draft                     ARK                     February 2021
    they have proven hard to recognize in some environments, supporting
    them is optional.
 
+
+
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                 [Page 6]
+
+Internet-Draft                     ARK                      October 2021
+
+
 1.3.  Organizing Support for ARKs: Our Stuff vs. Their Stuff
 
    An organization and the user community it serves can often be seen to
@@ -330,14 +345,6 @@ Internet-Draft                     ARK                     February 2021
    Our Stuff problem and the Their Stuff problem.  In the Our Stuff
    problem, we in the organization want our own objects to acquire
    persistent names.  Since we possess or control these objects, our
-
-
-
-Kunze & Bermes           Expires August 25, 2021                [Page 6]
-
-Internet-Draft                     ARK                     February 2021
-
-
    organization tackles the Our Stuff problem directly.  Whether or not
    the objects are named by ARKs, our organization is the responsible
    party, so it can plan for, maintain, and make commitments about the
@@ -379,23 +386,23 @@ Internet-Draft                     ARK                     February 2021
    some other identifier schemes.  On the other hand, it would be hard
    to grant credence to a persistence promise from an organization that
    could not muster the minimum ARK services.  Not that there isn't a
+
+
+
+Kunze & Bermès            Expires 12 April 2022                 [Page 7]
+
+Internet-Draft                     ARK                      October 2021
+
+
    business model for an ARK-like, description-only service built on top
    of another organization's full complement of ARK services.  For
    example, there might be competition at the description level for
    abstracting and indexing a body of scientific literature archived in
    a combination of open and fee-based repositories.  The description-
    only service would have no direct commitment to the objects, but
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021                [Page 7]
-
-Internet-Draft                     ARK                     February 2021
-
-
    would act as an intermediary, forwarding commitment statements from
    object hosting services to requestors.
+
 
 1.4.  Definition of Identifier
 
@@ -434,50 +441,129 @@ Internet-Draft                     ARK                     February 2021
    conveniently manipulable object surrogate, acting as both an
    association "receipt" and "declaration".
 
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                 [Page 8]
+
+Internet-Draft                     ARK                      October 2021
+
+
    Note that our definition of identifier extends the one in use for
    Uniform Resource Identifiers [RFC3986].  The present document still
    sometimes (ab)uses the terms "ARK" and "identifier" as shorthand for
    the string part of an identifier, but the context should make the
    meaning clear.
 
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021                [Page 8]
-
-Internet-Draft                     ARK                     February 2021
-
-
 2.  ARK Anatomy
 
    An ARK is represented by a sequence of characters (a string) that
-   contains the label, "ark:", optionally preceded by the beginning part
+   contains the Label, "ark:", optionally preceded by the beginning part
    of a URL.  Here is a diagrammed example.
 
-   ARK ANATOMY
-   ===========
+   ANATOMY OVERIEW
+   ===============
 
-         Resolver Service   Base Object Name    Qualifiers
-        __________________  ________________  _____________
-       /                  \/                \/             \
-       https://example.org/ark:12345/x54xz321/s3/f8.05v.tiff
-               \_________/ \__/\___/\_/\____/\____/\_______/
-                   |      Label  |   |  Blade   |       |
-                   |             |   |          |       |
-   Name Mapping Authority (NMA)  |  Shoulder  Sub-parts Variants
-                                 |  \_______/
-                                 | Assigned Base Name
-                                 |
-   Name Assigning Authority Number (NAAN)
+
+        Resolver Service            Compact ARK
+       __________________  ______________________________
+      /                  \/                              \
+      https://example.org/ark:12345/x6np1wh8k/c3/s5.v7.xsl
+      \___________________________/\________/\___________/
+                 Prefixes          Base Name    Suffixes
+      \__________________________________________________/
+                          Mapping ARK
+
+   When embedded in a URL, an ARK consists of a Compact ARK preceded by
+   a Resolver Service.  The larger URL-based ARK is known as a Mapping
+   ARK because it is ready to be mapped (resolved) to an information
+   response (eg, a PDF or metadata).  A Mapping ARK is also know as a
+   "fully qualified ARK".  The Resolver Service, which need not be
+   limited to URLs in the future, maps the URL according to rules and
+   abilities of an NMA (Name Mapping Authority).  The same URL string
+   minus the Resolver Service component is known as a Compact ARK.  The
+   Compact ARK is globally unique and may be resolvable via different
+   Resolver Services over time (eg, when one archive succeeds another)
+   or at the same time (eg, when one archive backs up another).
+
+   At a high level, after the Label comes the NAAN (Name Assigning
+   Authority Number) followed by the Name that it assigns to the
+   identified thing.  The Base Name has Prefixes (NAAN, Label, possibly
+   a Resolver Service) and optional Suffixes to identify Parts and
+   Variant forms.  During resolution, a Resolver Service such as n2t.net
+   may be able to deal with inflections query strings, and content
+   negotiation.
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                 [Page 9]
+
+Internet-Draft                     ARK                      October 2021
+
+
+   ANATOMY DETAILS
+   ===============
+                           Base Compact Name   Qualifiers
+                           _________________  ___________
+                          /                 \/           \
+      https://example.org/ark:12345/x6np1wh8k/c3/s5.v7.xsl
+              \_________/ \__/\___/\_/\_____/\____/\_____/
+                 NMA     Label NAAN |  Blade Parts Variants
+                                  Shoulder
+                              \_____________/
+                                 Check Zone
+
+   In a closer view, the Compact ARK consists of a Base Compact Name
+   followed potentially by Qualifiers.  The Base Name often, but not
+   necessarily, consists of a Shoulder (for subdividing a NAAN
+   namespace) followed by a Blade.  If a check character is present in
+   an ARK, by convention it is the right-most character of the Base
+   Name, and will have been computed over the string of characters
+   preceding it back to the beginning of the NAAN.  This string,
+   including the check character itself, is the Check Zone.
+
+   x
+
+   Like the ARK itself, the NAAN "12345" and Shoulder "x6" have compact
+   and fully qualified forms.
+
+   +==========+=======+==============+================================+
+   |   Form   |  Base | Compact Form |      Fully Qualified Form      |
+   +==========+=======+==============+================================+
+   |   NAAN   | 12345 |  ark:12345   | https://example.org/ark:12345  |
+   +----------+-------+--------------+--------------------------------+
+   | Shoulder |   x6  | ark:12345/x6 | https://example.org/ark:12345/ |
+   |          |       |              |               x6               |
+   +----------+-------+--------------+--------------------------------+
+
+      Table 1: Examples of base, compact, and fully qualified forms
+
+   x
 
    The ARK syntax can be summarized,
 
-                  [https://NMA/]ark:[/]NAAN/Name[Qualifier]
+                  [https://NMA/]ark:[/]NAAN/Name[Qualifiers]
+
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 10]
+
+Internet-Draft                     ARK                      October 2021
+
 
    where the NMA, '/', and Qualifier parts are in brackets to indicate
-   that they are optional.  The Base Object Name is the substring
+   that they are optional.  The Base Compact Name is the substring
    comprising the "ark:" label, the NAAN and the assigned Name.  The
    Resolver Service is replaceable and makes the ARK actionable for a
    period of time.  Without the Resolver Service part, what remains is
@@ -489,34 +575,29 @@ Internet-Draft                     ARK                     February 2021
    (NMA) that is a temporary address where ARK service requests may be
    sent.  Preceded by a URI-type protocol designation such as
    "https://", it specifies a Resolver Service.  The NMA itself is an
-   Internet hostname or host/port combination having the same format and
-   semantics as the host/port part of a URL.  The most important thing
-   about the NMA is that it is "identity inert" from the point of view
-   of object identification.  In other words, ARKs that differ only in
-   the optional NMA part identify the same object.  Thus, for example,
-   the following three ARKs are synonyms for just one information
-   object:
+   Internet hostname or host/port combination, optionally followed by
+   URI-type path components, all ending in a '/'.  The hostname has the
+   same format and semantics as the host/port part of a URL.  In any
+   optional path that follows it, the path is considered to end with the
+   '/' in the first occurrence of "/ark:".
 
+   The most important thing about the NMA is that it is "identity inert"
+   from the point of view of object identification.  In other words,
+   ARKs that differ only in the optional NMA part identify the same
+   object.  Thus, for example, the following three ARKs are synonyms for
+   just one information object:
 
-
-
-
-Kunze & Bermes           Expires August 25, 2021                [Page 9]
-
-Internet-Draft                     ARK                     February 2021
-
-
-                    https://loc.gov/ark:12345/x54xz321
-                https://rutgers.edu/ark:12345/x54xz321
+           http://example.org/rslvr/ark:12345/x54xz321
+                https://example.com/ark:12345/x54xz321
                                     ark:12345/x54xz321
 
    Strictly speaking, in the realm of digital objects, these ARKs may
    lead over time to somewhat different or diverging instances of the
-   originally named object.  In an ideal world, divergence of persistent
-   objects is not desirable, but it is widely believed that digital
-   preservation efforts will inevitably lead to alterations in some
-   original objects (e.g, a format migration in order to preserve the
-   ability to display a document).  If any of those objects are held
+   originally named object.  It can be argued that divergence of
+   persistent objects is not desirable, but it is widely believed that
+   digital preservation efforts will inevitably lead to alterations in
+   some original objects (e.g, a format migration in order to preserve
+   the ability to display a document).  If any of those objects are held
    redundantly in more than one organization (a common preservation
    strategy), chances are small that all holding organizations will
    perform the same precise transformations and all maintain the same
@@ -525,14 +606,22 @@ Internet-Draft                     ARK                     February 2021
    each other.
 
    The NMA part makes an ARK into an actionable URL.  As with many
-   internet parameters, it is helpful to approach the NMA being liberal
+   Internet parameters, it is helpful to approach the NMA being liberal
    in what you accept and conservative in what you propose.  From the
    recipient's point of view, the NMA part should be treated as
    temporary, disposable, and replaceable.  From the NMA's point of
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 11]
+
+Internet-Draft                     ARK                      October 2021
+
+
    view, it should be chosen with the greatest concern for longevity.  A
    carefully chosen NMA should be at least as permanent as the providing
    organization's own hostname.  In the case of a national or university
-   library, for example, there is no reason why the NMA should not be
+   library, for example, there is no reason why the NMA could not be
    considerably more permanent than soft-funded proxy hostnames such as
    hdl.handle.net, dx.doi.org, and purl.org.  In general and over time,
    however, it is not unexpected for an NMA eventually to stop working
@@ -554,14 +643,6 @@ Internet-Draft                     ARK                     February 2021
 
    The practice of prepending "https://" and an NMA to an ARK is a way
    of creating an actionable identifier by a method that is itself
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 10]
-
-Internet-Draft                     ARK                     February 2021
-
-
    temporary.  Assuming that infrastructure supporting [RFC2616]
    information retrieval will no longer be available one day, ARKs will
    then have to be converted into new kinds of actionable identifiers.
@@ -581,6 +662,17 @@ Internet-Draft                     ARK                     February 2021
 
                              ark:/12345/x54xz321
                               ark:12345/x54xz321
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 12]
+
+Internet-Draft                     ARK                      October 2021
+
 
    In a URL found in the wild, the label indicates that the URL stands a
    reasonable chance of being an ARK.  If the context warrants,
@@ -609,28 +701,20 @@ Internet-Draft                     ARK                     February 2021
 
    Recalling that the general form of the ARK is,
 
-                  [https://NMA/]ark:[/]NAAN/Name[Qualifier]
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 11]
-
-Internet-Draft                     ARK                     February 2021
-
+                  [https://NMA/]ark:[/]NAAN/Name[Qualifiers]
 
    the part of the ARK directly following the "ark:" (or older "ark:/")
    label is the Name Assigning Authority Number (NAAN), up to but not
    including the next `/' (slash) character.  This part is always
-   required, as it identifies a hostname of the organization that
-   originally assigned the Name of the object.  Typically the
-   organization is an institution, a department, a laboratory, or any
-   group that conducts a stable, policy-driven name assigning effort.
-   It is used to discover a currently valid NMA and to provide top-level
-   partitioning of the space of all ARKs.
+   required, as it identifies the organization that originally assigned
+   the Name of the object.  Typically the organization is an
+   institution, a department, a laboratory, or any group that conducts a
+   stable, policy-driven name assigning effort.  An organization may
+   request a NAAN from the ARK Maintenance Agency [ARKagency] (described
+   in Appendix A) by filling out the form [NAANrequest].
 
-   An organization may request a NAAN from the ARK Maintenance Agency
-   [ARKagency] (described in Appendix A) by filling out the form at
-   [NAANrequest].  NAANs are opaque strings of one or more "betanumeric"
+   For received ARKs, implementations must support a minimum NAAN length
+   of 16 octets.  NAANs are opaque strings of one or more "betanumeric"
    characters, specifically,
 
        0123456789bcdfghjkmnpqrstvwxz
@@ -638,6 +722,14 @@ Internet-Draft                     ARK                     February 2021
    which consists of digits and consonants, minus the letter 'l'.
    Restricting NAANs to betanumerics (alphanumerics without vowels or
    'l') serves two goals.  It reduces the chances that words -- past,
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 13]
+
+Internet-Draft                     ARK                      October 2021
+
+
    present, and future -- will appear in NAANs and carry unintended
    semantics.  It also helps usability by not mixing commonly confused
    characters ('0' and 'O', '1' and 'l') and by being compatible with
@@ -649,6 +741,65 @@ Internet-Draft                     ARK                     February 2021
    namespace, a NAAN is never re-registered.  It is possible, however,
    for there to be a succession of organizations that manage an ARK
    namespace.
+
+   There are currently four NAANs available to all organizations.  An
+   ARK bearing one of these NAANs carries a specific, immutable meaning
+   that recipients can rely on for long term pragmatic benefit as
+   described below.
+
+   +==========+================================+==========+============+
+   |  Shared  |     The immutable purpose,     |  Expect  |   OK for   |
+   |   NAAN   |   meaning, or connotation of   |    to    | long term  |
+   | meaning  |    ARKs bearing this NAAN.     | resolve? | reference? |
+   +==========+================================+==========+============+
+   |  12345   |   Example ARKs appearing in    |  maybe   |     no     |
+   | examples |   documentation.  They might   |          |            |
+   |          |  resolve, but no link checker  |          |            |
+   |          |   need be concerned if they    |          |            |
+   |          |   don't.  They should not be   |          |            |
+   |          |   considered viable for long   |          |            |
+   |          |        term reference.         |          |            |
+   +----------+--------------------------------+----------+------------+
+   |  99152   |      ARKs for controlled       |   yes    |    yes     |
+   |  terms   |    vocabulary and ontology     |          |            |
+   |          |    terms, such as metadata     |          |            |
+   |          |  element names and pick-list   |          |            |
+   |          |  values.  They should resolve  |          |            |
+   |          |  to term definitions and are   |          |            |
+   |          |     suitable for long term     |          |            |
+   |          |           reference.           |          |            |
+   +----------+--------------------------------+----------+------------+
+   |  99166   |  ARKs for people, groups, and  |   yes    |    yes     |
+   |  agents  |    institutions as "agents"    |          |            |
+   |          |   (actors, such as creators,   |          |            |
+   |          |   contributors, publishers,    |          |            |
+   |          |    performers, etc).  They     |          |            |
+   |          |    should resolve to agent     |          |            |
+   |          |  definitions and are suitable  |          |            |
+   |          |    for long term reference.    |          |            |
+   +----------+--------------------------------+----------+------------+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 14]
+
+Internet-Draft                     ARK                      October 2021
+
+
+   |  99999   |  ARKs for test, development,   |  maybe   |     no     |
+   | test ids |   or experimental purposes,    |          |            |
+   |          |  often at scale.  They might   |          |            |
+   |          |  resolve, but no link checker  |          |            |
+   |          |   need be concerned if they    |          |            |
+   |          |   don't.  They should not be   |          |            |
+   |          |   considered viable for long   |          |            |
+   |          |        term reference.         |          |            |
+   +----------+--------------------------------+----------+------------+
+
+            Table 2: Four NAANs shared across all organizations
+
+   To make use of a shared NAAN, an organization has several options
+   described in Section 2.4.1.
 
 2.4.  The Name Part
 
@@ -666,14 +817,6 @@ Internet-Draft                     ARK                     February 2021
    defeat persistence and international acceptance.  The use of digits
    is highly recommended.  Mixing in non-vowel alphabetic characters
    (eg, betanumerics) a couple at a time is a relatively safe and easy
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 12]
-
-Internet-Draft                     ARK                     February 2021
-
-
    way to achieve a denser namespace (more possible names for a given
    length of the name string).  Such names have a chance of aging and
    traveling well.  The absence of recognizable words makes typos harder
@@ -682,17 +825,26 @@ Internet-Draft                     ARK                     February 2021
    identifiers, with or without check characters [NOID].  More on naming
    considerations is given in a subsequent section.
 
-2.4.1.  Optional: Shoulder and Blade
+2.4.1.  Optional: Shoulders
 
-   Just as a ARK namespace is subdivided by NAANs reserved for NAAs,
-   each NAAN is a namespace that can be subdivided into "shoulders",
-   where each shoulder is reserved for an internal department or unit.
-   Like the NAAN, which is a string of characters that follows the
-   "ark:" label, a shoulder is a string of characters (starting with a
-   "/") that extends the NAAN.  The base object name assigned by the NAA
-   consists of the NAAN, the shoulder, a final string known as the
-   "blade".  (The shoulder plus blade terminology mirrors locksmith
-   jargon describing the information-bearing parts of a key.)
+   Just as an ARK namespace is subdivided by NAANs reserved for NAAs, it
+   is generally advantageous for an NAA to subdivide its own NAAN
+   namespace into "shoulders", where each shoulder is reserved for an
+   internal department or unit.  Like the NAAN, which is a string of
+   characters that follows the "ark:" label, a shoulder is a string of
+   characters (starting with a "/") that extends the NAAN.  The base
+   compact name assigned by the NAA consists of the NAAN, the shoulder,
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 15]
+
+Internet-Draft                     ARK                      October 2021
+
+
+   a final string known as the "blade".  (The shoulder plus blade
+   terminology mirrors locksmith jargon describing the information-
+   bearing parts of a key.)
 
    The blade string is chosen by the NAA such that the string created by
    concatenating the NAAN plus shoulder plus blade becomes the unique
@@ -700,7 +852,7 @@ Internet-Draft                     ARK                     February 2021
    example, it might come from a counter, a timestamp, a [NOID] minter,
    a legacy 100-year-old accession number, etc.  If there is a check
    digit, it is expected to appear at the end of the blade and to be
-   computed over the base object name, which is generally the most
+   computed over the base compact name, which is generally the most
    important part of an ARK to make opaque.  In particular, check digits
    are not expected to cover qualifiers, which often name subobjects of
    a persistent object that are less stable and less opaquely named than
@@ -711,35 +863,45 @@ Internet-Draft                     ARK                     February 2021
    It is important not to use any delimiter between the shoulder string
    and blade string, especially not a "/" since it declares an object
    boundary (see the section on ARKs that reveal object hierarchy).
+
+     ark:12345/x5wf6789/c2/s4.pdf       # correct primordinal shoulder
+     ark:12345/x5/wf6789/c2/s4.pdf      # INCORRECT
+                 ^ WRONG
+
    This little bit of discretion shields organizations from end users
    making inferences about expected levels of support based on
    recognizable shoulders.  To help in-house ARK administrators reliably
    know where the shoulder ends, it is recommended to use the "first-
    digit convention" so that shoulders are "primordinal".  A primordinal
    shoulder is a sequence of one or more betanumeric characters ending
-   in a digit.  This means that the shoulder is all consonant letters
-   (often just one) after the NAAN and "/" up to and including the first
-   digit encountered after the NAAN.  One property of primordinal
-   shoulders is that there is an infinite number of them possible under
-   any NAAN.
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 13]
-
-Internet-Draft                     ARK                     February 2021
-
+   in a digit, as shown above.  This means that the shoulder is all
+   consonant letters (often just one) after the NAAN and "/" up to and
+   including the first digit encountered after the NAAN.  One property
+   of primordinal shoulders is that there is an infinite number of them
+   possible under any NAAN.
 
    To help manage each namespace into the future, NAAs are encouraged to
-   create at shoulders, even if there is only one to start with.  There
-   are four NAANs (99999, 12345, 99152, 99166, XXX describe these) that
-   are shared across organizations.  The create a shoulder on one of
-   them requires a registration process (XXX).
+   create shoulders, even if there is only one to start with.  If an
+   organization wishes to create a shoulder under one of shared NAANs
+   (99999, 12345, 99152, or 99166, described in Table 2), it should fill
+   out the Shoulder Request Form [shoulderrequest].
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 16]
+
+Internet-Draft                     ARK                      October 2021
+
 
 2.5.  The Qualifier Part
 
    The part of the ARK following the NAA-assigned Name is an optional
-   Qualifier.  It is a string that extends the base ARK in order to
+   Qualifier.  It is a string that extends the Base Name in order to
    create a kind of service entry point into the object named by the
    NAA.  At the discretion of the providing NMA, such a service entry
    point permits an ARK to support access to individual hierarchical
@@ -753,9 +915,9 @@ Internet-Draft                     ARK                     February 2021
    introduced and subdivided by the reserved character `/'.  In this
    example,
 
-       https://example.org/ark:12345/x54xz321/s3/f8.05v.tiff
+       https://example.org/ark:12345/x54xz321/s3/f8.v05.tiff
 
-   the string "/s3/f8" is a ComponentPath and the string ".05v.tiff" is
+   the string "/s3/f8" is a ComponentPath and the string ".v05.tiff" is
    a VariantPath.  The ARK Qualifier is a formalization of some
    currently mainstream URL syntax conventions.  This formalization
    specifically reserves meanings that permit recipients to make strong
@@ -778,20 +940,20 @@ Internet-Draft                     ARK                     February 2021
    Second, a Qualifier assignment on the part of an NMA is made in
    fulfillment of its service obligations and may reflect changing
    service expectations and technology requirements.  NMA-qualified ARKs
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 14]
-
-Internet-Draft                     ARK                     February 2021
-
-
    could therefore be transient, even if the base, unqualified ARK is
    persistent.  For example, it would be reasonable for an NMA to
    support access to an image object through an actionable ARK that is
    considered persistent even if the experience of that access changes
    as linking, labeling, and presentation conventions evolve and as
    format and security standards are updated.  For an image "thumbnail",
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 17]
+
+Internet-Draft                     ARK                      October 2021
+
+
    that NMA could also support an NMA-qualified ARK that is considered
    impersistent because the thumbnail will be replaced with higher
    resolution images as network bandwidth and CPU speeds increase.  At
@@ -834,17 +996,19 @@ Internet-Draft                     ARK                     February 2021
    its left indicates a containing object.  For example, publishing an
    ARK of the form,
 
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 15]
-
-Internet-Draft                     ARK                     February 2021
-
-
                        ark:12345/x54/xz/321
 
    is equivalent to publishing three ARKs,
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 18]
+
+Internet-Draft                     ARK                      October 2021
+
 
                        ark:12345/x54/xz/321
                        ark:12345/x54/xz
@@ -883,27 +1047,28 @@ Internet-Draft                     ARK                     February 2021
    the Name part of an ARK.  Some authorities will choose not to
    disclose this information, while others will go ahead and disclose so
    that manipulators of large sets of ARKs can infer object
-   relationships by simple identifier inspection; for example, this
-   makes it possible for a system to present a collapsed view of a large
-   search result set.
+   relationships by simple identifier inspection.  This makes it
+   possible for a system to present a collapsed view of a large number
+   of search result items without having to issue database queries in
+   order to retrieve and analyze the inter-relatedness among all of
+   those items.
 
-   If the ARK contains an internal period after Name, the piece to its
-   left is a root name and the piece to its right, and up to the end of
+   If the ARK contains an internal period after the Name, the piece to
+   the left of the first such period is a root name and the piece to its
+   right, and up to the end of the ARK or to the next period is a
+   suffix.  A Name may have more than one suffix, for example,
 
 
 
 
-Kunze & Bermes           Expires August 25, 2021               [Page 16]
+Kunze & Bermès            Expires 12 April 2022                [Page 19]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
-
-   the ARK or to the next period is a suffix.  A Name may have more than
-   one suffix, for example,
 
                        ark:12345/x54.24
                        ark:12345/x4z/x54.24
-                       ark:12345/x54.20v.78g.f55
+                       ark:12345/x54.v18.fr.odf
 
    There are two main rules.  First, if two ARKs share the same root
    name but have different suffixes, the corresponding objects were
@@ -911,22 +1076,22 @@ Internet-Draft                     ARK                     February 2021
    versions, etc.) by the assigner (NMA or NAA).  Thus, the following
    ARKs are variants of each other:
 
-                       ark:12345/x54.20v.78g.f55
+                       ark:12345/x54.v18.fr.odf
                        ark:12345/x54.321xz
                        ark:12345/x54.44
 
    Second, publishing an ARK with a suffix implies the existence of at
    least one variant identified by the ARK without its suffix.  The ARK
-   otherwise permits no further assumptions about what variants might
-   exist.  So publishing the ARK,
+   is otherwise silent about what additional variants might exist.  So
+   publishing the ARK,
 
-                       ark:12345/x54.20v.78g.f55
+                       ark:12345/x54.v18.fr.odf
 
    is equivalent to publishing the four ARKs,
 
-                       ark:12345/x54.20v.78g.f55
-                       ark:12345/x54.20v.78g
-                       ark:12345/x54.20v
+                       ark:12345/x54.v18.fr.odf
+                       ark:12345/x54.v18.fr
+                       ark:12345/x54.v18
                        ark:12345/x54
 
    Revealing the possibility of variants is completely up to the
@@ -940,8 +1105,7 @@ Internet-Draft                     ARK                     February 2021
    neither a slash nor a period) on both sides in order for it to
    separate recognizable structural components.  So initial or final
    periods may be removed, and adjacent periods may be converted into a
-   single period.  Multiple suffixes should be arranged in sorted order
-   (pure ASCII collating sequence) at the end of an ARK.
+   single period.
 
 
 
@@ -949,16 +1113,20 @@ Internet-Draft                     ARK                     February 2021
 
 
 
-Kunze & Bermes           Expires August 25, 2021               [Page 17]
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 20]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
 
 2.6.  Character Repertoires
 
    The Name and Qualifier parts are strings of visible ASCII characters.
    For received ARKs, implementations must support a minimum length of
-   255 octets for the string composed of the Base ARK plus Qualifier.
+   255 octets for the string composed of the Base Name plus Qualifier.
    Implementations generating strings exceeding this length should
    understand that receiving implementations may not be able to index
    such ARKs properly.  Characters may be letters, digits, or any of
@@ -992,23 +1160,32 @@ Internet-Draft                     ARK                     February 2021
 
    The `%' character is reserved for %-encoding all other octets that
    would appear in the ARK string, in the same manner as for URIs
-   [RFC3986].  A %-encoded octet consists of a `%' followed by two hex
-   digits; for example, "%7d" stands in for `}'.  Lower case hex digits
-   are preferred to reduce the chances of false acronym recognition;
-   thus it is better to use "%acT" instead of "%ACT".  The character `%'
-   itself must be represented using "%25".  As with URNs, %-encoding
-   permits ARKs to support legacy namespaces (e.g., ISBN, ISSN, SICI)
-   that have less restricted character repertoires [RFC2288].
+   [RFC3986].  A %-encoded octet consists of a `%' followed by two
+   uppercase hex digits; for example, "%7D" stands in for `}'.
+   Uppercase hex digits are preferred for compatibility with URI
+   encoding conventions, especially useful when URL-based ARKs are
+   compared for equivalence by ARK-unaware software systems; thus use
+   "%ACT" instead of "%acT".  The character `%' itself must be
+   represented using "%25".  As with URNs, %-encoding permits ARKs to
+   support legacy namespaces (e.g., ISBN, ISSN, SICI) that have less
+   restricted character repertoires [RFC2288].
 
 
 
 
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 18]
+Kunze & Bermès            Expires 12 April 2022                [Page 21]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
+
+   Implementors should be prepared to normalize some common invalid
+   characters that may be found in ARKs copy pasted from processed text.
+   For example, when pasting an ARK that was broken during line
+   wrapping, a user may inadvertently propagate newlines, spaces,
+   hyphens, and hyphen-like characters (eg, U+2010 to U+2015) that were
+   introduced by the publisher.  The normalization strategy is up to the
+   implementor and may include converting hyphen-like characters to
+   hyphens and removing whitespace.
 
 2.7.  Normalization and Lexical Equivalence
 
@@ -1025,56 +1202,93 @@ Internet-Draft                     ARK                     February 2021
    Normalization of a received ARK for the purpose of octet-by-octet
    equality comparison with another ARK consists of the following steps.
 
-   1.  The NMA part (eg, everything from an initial "https://" up to the
-       next slash), if present is removed.
+   1.   The NMA part (eg, everything from an initial "https://" up to
+        the first occurrence of "/ark:"), if present is removed.
 
-   2.  Any URI query string is removed (everything from the first
-       literal '?' to the end of the string).
+   2.   Any URI query string is removed (everything from the first
+        literal '?' to the end of the string).
 
-   3.  The first case-insensitive match on "ark:/" or "ark:" is
-       converted to "ark:" (replacing any upper case letters and
-       removing any terminal '/').
+   3.   The first case-insensitive match on "ark:/" or "ark:" is
+        converted to "ark:" (replacing any uppercase letters and
+        removing any terminal '/').
 
-   4.  In the string that remains, the two characters following every
-       occurrence of `%' are converted to lower case.  The case of all
-       other letters in the ARK string must be preserved.
+   4.   Any uppercase letters in the NAAN are converted to lowercase.
 
-   5.  All hyphens are removed.
+   5.   In the string that remains, the two characters following every
+        occurrence of `%' are converted to uppercase.  The case of all
+        other letters in the ARK string must be preserved.
 
-   6.  If normalization is being done as part of a resolution step, and
-       if the end of the remaining string matches a known inflection,
-       the inflection is noted and removed.
+   6.   All hyphens are removed.  Implementors should be aware that non-
+        ASCII hyphen-like characters (eg, U+2010 to U+2015) may arrive
+        in the place of hyphens and, if they wish, remove them.
 
-   7.  Structural characters (slash and period) are normalized: initial
-       and final occurrences are removed, and two structural characters
-       in a row (e.g., // or ./) are replaced by the first character,
-       iterating until each occurrence has at least one non-structural
-       character on either side.
-
-   8.  If there are any components with a period on the left and a slash
-       on the right, either the component and the preceding period must
-       be moved to the end of the Name part or the ARK must be thrown
-       out as malformed.
+   7.   If normalization is being done as part of a resolution step, and
+        if the end of the remaining string matches a known inflection,
+        the inflection is noted and removed.
 
 
 
 
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 19]
+Kunze & Bermès            Expires 12 April 2022                [Page 22]
 
-Internet-Draft                     ARK                     February 2021
+Internet-Draft                     ARK                      October 2021
 
+
+   8.   Structural characters (slash and period) are normalized: initial
+        and final occurrences are removed, and two structural characters
+        in a row (e.g., // or ./) are replaced by the first character,
+        iterating until each occurrence has at least one non-structural
+        character on either side.
+
+   9.   If there are any components with a period on the left and a
+        slash on the right, either the component and the preceding
+        period must be moved to the end of the Name part or the ARK must
+        be thrown out as malformed.
 
    The resulting ARK string is now normalized.  Comparisons between
-   normalized ARKs are case-sensitive, meaning that upper case letters
-   are considered different from their lower case counterparts.
+   normalized ARKs are case-sensitive, meaning that uppercase letters
+   are considered different from their lowercase counterparts.
 
    To keep ARK string variation to a minimum, no reserved ARK characters
    should be %-encoded unless it is deliberately to conceal their
    reserved meanings.  No non-reserved ARK characters should ever be
    %-encoded.  Finally, no %-encoded character should ever appear in an
    ARK in its decoded form.
+
+2.8.  Resolver Chains
+
+   Resolution is a computation, often multi-stage, that maps a client
+   identifier to a response.  The response may be any "thing", such as a
+   spreadsheet, a landing page, a metadata record, or a 404 Not Found.
+   A single-stage retrieval of a web page is a resolution.  More
+   interesting kinds of resolution involve forwarding (indirection) and/
+   or proxying.
+
+   On the web, forwarding is done with HTTP redirects.  In general ARK
+   resolution on the web involves a chain of one or more redirects that
+   ends with the web server, known as the Responder, that responds
+   without redirecting.  The Responder might be a proxy and itself
+   intiate a sub-resolution request chain unbeknownst to the original
+   client, but that is out of scope here.  An ARK might have a Resource
+   Responder that is a different host from the Metadata Responder.  The
+   client starts resolution by contacting the NMA (server host) found in
+   the original Mapping ARK URL.  This is known as the First Resolver.
+
+
+
+
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 23]
+
+Internet-Draft                     ARK                      October 2021
+
 
 3.  Naming Considerations
 
@@ -1086,41 +1300,23 @@ Internet-Draft                     ARK                     February 2021
    back to naming practices that we now know to be less than optimal for
    persistence.
 
-3.1.  ARKS Embedded in Language
+3.1.  ARKS and Usability
 
-   The ARK has different goals from the URI, so it has different
-   character set requirements.  Because linguistic constructs imperil
-   persistence, for ARKs non-ASCII character support is unimportant.
-   ARKs and URIs share goals of transcribability and transportability
-   within web documents, so characters are required to be visible, non-
-   conflicting with HTML/XML syntax, and not subject to tampering during
-   transmission across common transport gateways.  Add the goal of
-   making an undelimited ARK recognizable in running prose, as in
-   ark:12345/=@_22*$, and certain punctuation characters (e.g., comma,
-   period) end up being excluded from the ARK lest the end of a phrase
-   or sentence be mistaken for part of the ARK.
+   Because linguistic constructs imperil persistence, for ARKs non-ASCII
+   character support is unimportant.  ARKs and URIs share goals of
+   transcribability and transportability within web documents, so
+   characters are required to be visible, non-conflicting with HTML/XML
+   syntax, and not subject to tampering during transmission across
+   common transport gateways.
 
-   This consideration has more direct effect on ARK usability in a
-   natural language context than it has on ARK persistence.  The same is
-   true of the rule preventing hyphens from having lexical significance.
-   It is fine to publish ARKs with hyphens in them (e.g., such as the
-   output of UUID/GUID generators), but the uniform treatment of hyphens
-   as insignificant reduces the possibility of users transcribing
-   identifiers that will have been broken through unpredictable
-   hyphenation by word processors.  Any measure that reduces user
-   irritation with an identifier will increase its chances of survival.
-
-
-
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 20]
-
-Internet-Draft                     ARK                     February 2021
-
+   Any measure that reduces user irritation with an identifier will
+   increase its chances of survival.  This explains the rule preventing
+   hyphens from having lexical significance.  It is fine to publish ARKs
+   with hyphens in them (e.g., such as the output of UUID/GUID
+   generators), but the uniform treatment of hyphens (and their Unicode
+   equivalents) as insignificant reduces the possibility of users
+   transcribing identifiers that will have been broken through
+   unpredictable hyphenation by word processors.
 
 3.2.  Objects Should Wear Their Identifiers
 
@@ -1142,6 +1338,14 @@ Internet-Draft                     ARK                     February 2021
    persistence strategy, and they do not discriminate by identifier
    scheme.  Whether a mistakenly re-assigned name is a URN, DOI, PURL,
    URL, or ARK, the damage -- failed access and confusion -- is not
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 24]
+
+Internet-Draft                     ARK                      October 2021
+
+
    mitigated more in one scheme than in another.  Conversely, in-house
    efforts to manage names responsibly will go much further towards
    safeguarding persistence than any choice of naming scheme or name
@@ -1170,14 +1374,6 @@ Internet-Draft                     ARK                     February 2021
    three letters "gay" mean in 1958, 1978, and 1998?).  Today's
    recognized and correct attributes are tomorrow's stale or incorrect
    attributes.  In making hostnames (any names, actually) long-term
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 21]
-
-Internet-Draft                     ARK                     February 2021
-
-
    persistent, it helps to eliminate recognizable attributes to the
    extent possible.  This affects selection of any name based on URLs,
    including PURLs and the explicitly disposable NMAs.
@@ -1198,6 +1394,14 @@ Internet-Draft                     ARK                     February 2021
    Well-chosen hostnames from organizations that are sheltered from the
    direct effects of a volatile marketplace can easily provide longer-
    lived global resolvers than the domain names explicitly or implicitly
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 25]
+
+Internet-Draft                     ARK                      October 2021
+
+
    used as starting points for global resolution by indirection-based
    persistent identifier schemes.  For example, it is hard to imagine
    circumstances under which the Library of Congress' domain name would
@@ -1206,18 +1410,18 @@ Internet-Draft                     ARK                     February 2021
    For smaller libraries, archives, and preservation organizations,
    there is a natural concern about whether they will be able to keep
    their web servers and domain names in the face of uncertain funding.
-   One option is to form or join a consortium [N2T] of like-minded
-   organizations with the purpose of providing mutual preservation
-   support.  The first goal of such a consortium would be to perpetually
-   rent a hostname on which to establish a web server that simply
-   redirects incoming member organization requests to the appropriate
-   member server; using ARKs, for example, a 150-member consortium could
-   run a very small server (24x7) that contained nothing more than 150
-   rewrite rules in its configuration file.  Even more helpful would be
-   additional consortial support for a member organization that was
-   unable to continue providing services and needed to find a successor
-   archival organization.  This would be a low-cost, low-tech way to
-   publish ARKs (or URLs) under highly persistent hostnames.
+   One option is to form or join a group of like-minded organizations
+   with the purpose of providing mutual preservation support.  The first
+   goal of such a group would be to perpetually rent a hostname on which
+   to establish a web server that simply redirects incoming member
+   organization requests to the appropriate member server; using ARKs,
+   for example, a 150-member group could run a very small server (24x7)
+   that contained nothing more than 150 rewrite rules in its
+   configuration file.  Even more helpful would be additional consortial
+   support for a member organization that was unable to continue
+   providing services and needed to find a successor archival
+   organization.  This would be a low-cost, low-tech way to publish ARKs
+   (or URLs) under highly persistent hostnames.
 
    There are no obvious reasons why the organizations registering DNS
    names, URN Namespaces, and DOI publisher IDs should have among them
@@ -1226,14 +1430,6 @@ Internet-Draft                     ARK                     February 2021
    affect the persistence of URLs.  At such a time, certainly URLs from
    the present day might not then be actionable by our present-day
    mechanisms, but resolution systems for future non-actionable URLs are
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 22]
-
-Internet-Draft                     ARK                     February 2021
-
-
    no harder to imagine than resolution systems for present-day non-
    actionable URNs and DOIs.  There is no more stable a namespace than
    one that is dead and frozen, and that would then characterize the
@@ -1254,6 +1450,14 @@ Internet-Draft                     ARK                     February 2021
    Congress, for example, allows OCLC (the Online Computer Library
    Center, a major world cataloger of books) to create associations
    between Library of Congress call numbers (LCCNs) and the books that
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 26]
+
+Internet-Draft                     ARK                      October 2021
+
+
    OCLC processes.  A cataloging record is generated that testifies to
    each association, and the identifier is included by the publisher,
    for example, in the front matter of a book.
@@ -1279,55 +1483,50 @@ Internet-Draft                     ARK                     February 2021
    policies must be documented in a manner similar to the declarations
    required for URN Namespace registration [RFC2611].
 
-   Organizations can request or update a NAAN by filling out a form
-   [NAANrequest].
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 23]
-
-Internet-Draft                     ARK                     February 2021
-
+   Organizations can request or update a NAAN by filling out the NAAN
+   Request Form [NAANrequest].
 
 3.6.  NAAN Namespace Management
 
-   Every NAA must have a namespace management strategy.  A time-honored
-   technique is to hierarchically partition a namespace into
-   subnamespaces using prefixes that guarantee non-collision of names in
-   different partition.  This practice is strongly encouraged for all
-   NAAs, especially when subnamespace management will be delegated to
-   other departments, units, or projects within an organization.  For
-   example, with a NAAN that is assigned to a university and managed by
-   its main library, care should be taken to reserve semantically opaque
-   prefixes that will set aside large parts of the unused namespace for
-   future assignments.  Prefix-based partition management is an
-   important responsibility of the NAA.
+   Every NAA should have a namespace management strategy.  A classic
+   hierarchical approach is to partition a NAAN namespace into
+   subnamespaces known as "shoulders".  As explained in Section 2.4.1,
+   each shoulder is a unique prefix that guarantees non-collision of
+   names in different partitions.  This practice is strongly encouraged
+   for all NAAs, especially when subnamespace management and assignment
+   streams will be delegated to departments, units, or projects within
+   an organization.  For example, with a NAAN that is assigned to a
+   university and managed by its main library, the library should take
+   care to reserve shoulders (semantically opaque shoulders being
+   preferred) for distinct assignment streams.  Prefix-based partition
+   management is typically an important responsibility of the NAA.
 
-   This sort of delegation by prefix is well-used in the formation of
-   DNS names and ISBN identifiers.  An important difference is that in
-   the former, the hierarchy is deliberately exposed and in the latter
-   it is hidden.  Rather than using lexical boundary markers such as the
-   period (`.') found in domain names, the ISBN uses a publisher prefix
-   but doesn't disclose where the prefix ends and the publisher's
-   assigned name begins.  This practice of non-disclosure, borrowed from
-   the ISBN and ISSN schemes, is encouraged in assigning ARKs, because
-   it reduces the visibility of an assertion that is probably not
-   important now and may become a vulnerability later.
+   This shoulder delegation approach plays out differently in two real-
+   world examples: DNS names and ISBN identifiers.  In the former, the
+   hierarchy is deliberately exposed and in the latter it is hidden.
+   Rather than using lexical boundary markers such as the period (`.')
+   found in domain names, the ISBN uses a publisher prefix but doesn't
 
-   Reasonable prefixes for assigned names usually consist of consonants
-   and digits and are 1-5 characters in length.  For example, the
-   constant prefix "x9t" might be delegated to a book digitization
-   project that creates identifiers such as
 
-           https://444.berkeley.edu/ark:28722/x9t38rk45c
+
+Kunze & Bermès            Expires 12 April 2022                [Page 27]
+
+Internet-Draft                     ARK                      October 2021
+
+
+   disclose where the prefix ends and the publisher's assigned name
+   begins.  This practice of non-disclosure, found in the ISBN and ISSN
+   schemes, is encouraged in assigning ARKs because it reduces the
+   visibility of an assertion that is probably not important now and may
+   become a vulnerability later.
 
    If longevity is the goal, it is important to keep the prefixes free
    of recognizable semantics; for example, using an acronym representing
    a project or a department is discouraged.  At the same time, you may
-   wish to set aside a subnamespace for testing purposes under a prefix
-   such as "fk..." that can serve as a visual clue and reminder to
-   maintenance staff that this "fake" identifier was never published.
+   wish to set aside a subnamespace for testing purposes under a
+   shoulder such as "fk9..." that can serve as a visual clue and
+   reminder to maintenance staff that this "fake" identifier was never
+   published.
 
    There are other measures one can take to avoid user confusion,
    transcription errors, and the appearance of accidental semantics when
@@ -1338,14 +1537,6 @@ Internet-Draft                     ARK                     February 2021
    (arithmetically) that they don't contribute to the "value" of the
    identifier.
 
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 24]
-
-Internet-Draft                     ARK                     February 2021
-
-
    If you need lots of identifiers and you don't want them to get too
    long, you can mix digits with consonants (but avoid vowels since they
    might accidentally spell words) to get more identifiers without
@@ -1355,9 +1546,9 @@ Internet-Draft                     ARK                     February 2021
    for these sorts of identifiers, and can also add a computed check
    character as a guarantee against the most common transcription
    errors.  If used, it is recommended that the check character be
-   appended to the original Base Object Name string (ie, minus the check
-   character), that original string having been the basis for computing
-   the check character.
+   appended to the original Base Compact Name string (ie, minus the
+   check character), that original string having been the basis for
+   computing the check character.
 
 3.7.  Sub-Object Naming
 
@@ -1370,6 +1561,15 @@ Internet-Draft                     ARK                     February 2021
    future registry of canonical service points (e.g., numeric references
    to versions, formats, languages, etc).
 
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 28]
+
+Internet-Draft                     ARK                      October 2021
+
+
 4.  Finding a Name Mapping Authority
 
    In order to derive an actionable identifier (these days, a URL) from
@@ -1380,30 +1580,22 @@ Internet-Draft                     ARK                     February 2021
    identifiers they are willing to service.
 
    Upon encountering an ARK, a user (or client software) looks inside it
-   for the optional NMA part (the host part of the NMA's ARK service).
-   If it contains an NMA that is working, this NMA discovery step may be
-   skipped; the NMA effectively uses the beginning of an ARK to cache
-   the results of a prior mapping authority discovery process.  If a new
-   NMA needs to found, the client looks inside the ARK again for the
-   NAAN (Name Assigning Authority Number).  Querying a global database,
-   it then uses the NAAN to look up all current NMAs that service ARKs
-   issued by the identified NAA.
+   for the optional NMA part (usually the host part of the NMA's ARK
+   service).  If it contains an NMA that is working, this NMA discovery
+   step may be skipped; the NMA effectively uses the beginning of an ARK
+   to cache the results of a prior mapping authority discovery process.
+   If a new NMA needs to be found, the client looks inside the ARK again
+   for the NAAN (Name Assigning Authority Number).  Querying a global
+   database, it then uses the NAAN to look up all current NMAs that
+   service ARKs issued by the identified NAA.
 
    The global database is key, and ideally the lookup would be automatic
-   and transparent to the user.  For this, the most promising method is
-   probably the Name-to-Thing (N2T) Resolver [N2T] at n2t.net.  It is a
-   proposed low-cost, highly reliable, consortially maintained NMA that
-   simply exists to support actionable HTTP-based URLs for as long as
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 25]
-
-Internet-Draft                     ARK                     February 2021
-
-
-   HTTP is used.  One of its big advantages over the other two methods
-   and the URN, Handle, DOI, and PURL methods, is that N2T addresses the
+   and transparent to the user.  For this, the current most promising
+   method is the Name-to-Thing (N2T) Resolver [N2T] at n2t.net.  It is a
+   reliable, low-cost NMA supported by the ARK Alliance that primarily
+   exists to support actionable HTTP-based URLs for as long as HTTP is
+   used.  One of its big advantages over the other two methods and the
+   URN, Handle, DOI, and PURL methods, is that N2T addresses the
    namespace splitting problem.  When objects maintained by one NMA are
    inherited by more than one successor NMA, until now one of those
    successors would be required to maintain forwarding tables on behalf
@@ -1423,6 +1615,16 @@ Internet-Draft                     ARK                     February 2021
    given here may eventually be supplanted by better methods since, by
    design, the ARK scheme does not depend on a particular method, but
    only on having some method to locate an active NMA.
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 29]
+
+Internet-Draft                     ARK                      October 2021
+
 
    At the time of issuance, at least one NMA for an ARK should be
    prepared to service it.  That NMA may or may not be administered by
@@ -1449,15 +1651,6 @@ Internet-Draft                     ARK                     February 2021
    is never a requirement.  Over time NAAs and NMAs will come and go.
    One NMA will succeed another, and there might be many NMAs serving
    the same ARKs simultaneously (e.g., as mirrors or as competitors).
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 26]
-
-Internet-Draft                     ARK                     February 2021
-
-
    There might also be asymmetric but coordinated NMAs as in the
    library-publisher example above.
 
@@ -1476,10 +1669,18 @@ Internet-Draft                     ARK                     February 2021
    of DNS.
 
    The name authority table file is updated on an ongoing basis and is
-   available for copying over the internet from a number of mirror sites
+   available for copying over the Internet from a number of mirror sites
    [NAANregistry].  The file contains comment lines (lines that begin
    with `#') explaining the format and giving the file's modification
    time, reloading address, and NAA registration instructions.
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 30]
+
+Internet-Draft                     ARK                      October 2021
+
 
 5.  Generic ARK Service Definition
 
@@ -1505,28 +1706,37 @@ Internet-Draft                     ARK                     February 2021
    sensible object proxy may be substituted.  Examples of sensible
    substitutes include,
 
-   o  a table of contents instead of a large complex document,
+   *  a table of contents instead of a large complex document,
 
+   *  a home page instead of an entire web site hierarchy,
 
+   *  a rights clearance challenge before accessing protected data,
 
-Kunze & Bermes           Expires August 25, 2021               [Page 27]
-
-Internet-Draft                     ARK                     February 2021
+   *  directions for access to an offline object (e.g., a book),
 
+   *  a description of an intangible object (a disease, an event), or
 
-   o  a home page instead of an entire web site hierarchy,
-
-   o  a rights clearance challenge before accessing protected data,
-
-   o  directions for access to an offline object (e.g., a book),
-
-   o  a description of an intangible object (a disease, an event), or
-
-   o  an applet acting as "player" for a large multimedia object.
+   *  an applet acting as "player" for a large multimedia object.
 
    May also return a discriminated list of alternate object locators.
    If access is denied, returns an explanation of the object's current
    (perhaps permanent) inaccessibility.
+
+
+
+
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 31]
+
+Internet-Draft                     ARK                      October 2021
+
 
 5.1.1.  Generic Policy Service (permanence, naming, etc.)
 
@@ -1555,20 +1765,11 @@ Internet-Draft                     ARK                     February 2021
       revisions, whether through links to the changed objects themselves
       or through a document summarizing the change history
 
-   A recent approach to persistence statements, conceived independently
-   from ARKs, can be found at [PStatements], with ongoing work available
-   at [ARKagency].  An older approach to a permanence rating framework
-   is given in [NLMPerm], which identified the following "permanence
+   One approach to persistence statements, conceived independently from
+   ARKs, can be found at [PStatements], with ongoing work available at
+   [ARKspecs].  An older approach to a permanence rating framework is
+   given in [NLMPerm], which identified the following "permanence
    levels":
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 28]
-
-Internet-Draft                     ARK                     February 2021
-
 
       Not Guaranteed: No commitment has been made to retain this
       resource.  It could become unavailable at any time.  Its
@@ -1583,6 +1784,15 @@ Internet-Draft                     ARK                     February 2021
       resource permanently available.  Its identifier will always
       provide access to the resource.  Its content is subject only to
       minor corrections or additions.
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 32]
+
+Internet-Draft                     ARK                      October 2021
+
 
       Permanent: Unchanging Content: A commitment has been made to keep
       this resource permanently available.  Its identifier will always
@@ -1618,14 +1828,6 @@ Internet-Draft                     ARK                     February 2021
    words, how the NMA permits arguments or parameters to modify the
    object delivered as the result of an ARK request.  If supported,
    these sorts of operations would provide things like byte-ranged
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 29]
-
-Internet-Draft                     ARK                     February 2021
-
-
    fragment delivery and open-ended format conversions, or any set of
    possible transformations that would be too numerous to list or to
    identify with separately assigned ARKs.
@@ -1633,6 +1835,20 @@ Internet-Draft                     ARK                     February 2021
    Operational service support policy includes a description of general
    operational aspects of the NMA service, such as after-hours staffing
    and trouble reporting procedures.
+
+
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 33]
+
+Internet-Draft                     ARK                      October 2021
+
 
 5.1.2.  Generic Description Service
 
@@ -1674,20 +1890,21 @@ Internet-Draft                     ARK                     February 2021
    (question mark) that is appended to the identifier string.  The
    resulting string is sent as an argument to HTTP's GET command.
    Request strings too long for GET may be sent using HTTP's POST
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 30]
-
-Internet-Draft                     ARK                     February 2021
-
-
    command.  The two most common requests correspond to two degenerate
    special cases.  First, a simple key with no request at all is the
    same as an ordinary access request.  Thus a plain ARK entered into a
    browser's location field behaves much like a plain URL, and returns
    access to the primary identified object, for instance, an HTML
    document.
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 34]
+
+Internet-Draft                     ARK                      October 2021
+
 
    The second special case is a minimal ARK description request string
    consisting of just "?info".  For example, entering the string,
@@ -1709,34 +1926,10 @@ Internet-Draft                     ARK                     February 2021
    annotated to include a line number and whether it was the client or
    server that sent it.  Without going into much depth, the session has
    four pieces separated from each other by blank lines: the client's
-   piece (lines 1-3), the server's HTTP/THUMP response headers (4-7),
-   and the body of the server's response (8-13).  The first and last
-   lines (1 and 13) correspond to the client's steps to start the TCP
+   piece (lines 1-3), the server's HTTP/THUMP response headers (4-8),
+   and the body of the server's response (9-18).  The first and last
+   lines (1 and 19) correspond to the client's steps to start the TCP
    session and the server's steps to end it, respectively.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 31]
-
-Internet-Draft                     ARK                     February 2021
-
 
     1  C: [opens session]
        C: GET https://n2t.net/ark:67531/metadc107835?info HTTP/1.1
@@ -1744,25 +1937,39 @@ Internet-Draft                     ARK                     February 2021
        S: HTTP/1.1 200 OK
     5  S: Content-Type: text/plain
        S: THUMP-Status: 0.6 200 OK
+       S: Link: </ark:67531/metadc107835> rel="describes";
        S:
        S: erc:
-       S: who:   Austin, Larry
-   10  S: what:  A Study of Rhythm in Bach's Orgelbuechlein
+   10  S: who:   Austin, Larry
+       S: what:  A Study of Rhythm in Bach's Orgelbüchlein
        S: when:  1952
        S: where: https://digital.library.unt.edu/ark:/67531/metadc107835
        S: erc-support:
-       S: who:   University of North Texas Libraries
-   15  S: what:  Permanent: Stable Content:
+   15  S: who:   University of North Texas Libraries
+       S: what:  Permanent: Stable Content:
        S: when:  20081203
        S: where: https://digital.library.unt.edu/ark:/67531/
        S: [closes session]
 
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 35]
+
+Internet-Draft                     ARK                      October 2021
+
+
    The first two server response lines (4-5) above are typical of HTTP.
    The next line (6) is peculiar to THUMP, and indicates the THUMP
-   version and a normal return status.
+   version and a normal return status.  The final header line (7)
+   asserts, for the benefit of recipients unfamiliar with ARK
+   inflections, that the response describes the uninflected ARK.
 
    The balance of the response consists of a single metadata record
-   (8-17) that comprises the ARK description service response.  The
+   (9-18) that comprises the ARK description service response.  The
    returned record is in the format of an Electronic Resource Citation
    [ERC], which is discussed in overview in the next section.  For now,
    note that it contains four elements that answer the top priority
@@ -1783,17 +1990,6 @@ Internet-Draft                     ARK                     February 2021
    it was made, and where a fuller explanation of the commitment may be
    found.
 
-
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 32]
-
-Internet-Draft                     ARK                     February 2021
-
-
 5.3.  The Electronic Resource Citation (ERC)
 
    An Electronic Resource Citation (or ERC, pronounced e-r-c) [ERC] is a
@@ -1813,6 +2009,14 @@ Internet-Draft                     ARK                     February 2021
    The previous section shows two limited examples of what is fully
    described elsewhere [ERC].  The rest of this short section provides
    some of the background and rationale for this record format.
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 36]
+
+Internet-Draft                     ARK                      October 2021
+
 
    A founding principle of Kernel metadata is that direct human contact
    with metadata will be a necessary and sufficient condition for the
@@ -1842,14 +2046,6 @@ Internet-Draft                     ARK                     February 2021
    Besides simplicity of ERC system implementation and data entry
    mechanics, ERC semantics (what the record and its constituent parts
    mean) must also be easy to explain.  ERC semantics are based on a
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 33]
-
-Internet-Draft                     ARK                     February 2021
-
-
    reformulation and extension of the Dublin Core [RFC5013] hypothesis,
    which suggests that the fifteen Dublin Core metadata elements have a
    key role to play in cross-domain resource description.  The ERC
@@ -1870,6 +2066,14 @@ Internet-Draft                     ARK                     February 2021
    it is, or whether one plans to read it, interact with it, smoke it,
    wear it, or navigate it.  Of course, this approach is flawed because
    uniformity of description for some object types requires more
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 37]
+
+Internet-Draft                     ARK                      October 2021
+
+
    semantic contortion and sacrifice than for others.  That is why at
    the beginning of this document, the ARK was said to be suited to
    objects that accommodate reasonably regular electronic description.
@@ -1897,15 +2101,6 @@ Internet-Draft                     ARK                     February 2021
    to tell whether any of those identifiers is any better managed than
    the average URL.
 
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 34]
-
-Internet-Draft                     ARK                     February 2021
-
-
    ARKs are also envisaged to appear in hypertext links (where they are
    not normally shown to users) and in rendered text (displayed or
    printed).  A normal HTML link for which the URL is not displayed
@@ -1924,12 +2119,29 @@ Internet-Draft                     ARK                     February 2021
 
    <a href = "https://n2t.net/ark:14697/b12345x"> Click Here <a>
 
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 38]
+
+Internet-Draft                     ARK                      October 2021
+
+
    An NAA will typically make known the associations it creates by
    publishing them in catalogs, actively advertizing them, or simply
    leaving them on web sites for visitors (e.g., users, indexing
    spiders) to stumble across in browsing.
 
-5.5.  Security Considerations
+5.5.  Enhancements and Related Specifications
+
+   ARK services, data models, inflections, and applications continue to
+   evolve.  Follow-on developments and specifications will be made
+   available from the ARK Maintenance Agency [ARKspecs].
+
+5.6.  Security Considerations
 
    The ARK naming scheme poses no direct risk to computers and networks.
    Implementors of ARK services need to be aware of security issues when
@@ -1955,13 +2167,6 @@ Internet-Draft                     ARK                     February 2021
               Value Language", 2005,
               <https://n2t.net/ark:/13030/c7x921j3h>.
 
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 35]
-
-Internet-Draft                     ARK                     February 2021
-
-
    [ARK]      Kunze, J., "Towards Electronic Persistence Using ARK
               Identifiers", IWAW/ECDL Annual Workshop Proceedings 3rd,
               August 2003, <https://n2t.net/ark:/13030/c7n00zt1z>.
@@ -1970,8 +2175,18 @@ Internet-Draft                     ARK                     February 2021
               Alliance, A., "ARK Maintenance Agency", 2021,
               <https://arks.org>.
 
-   [DCKernel]
-              Initiative, D. C. M., "Kernel Metadata Working Group",
+   [ARKspecs] Alliance, A., "ARK Maintenance Agency Specifications",
+              2021, <https://arks.org/specs/>.
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 39]
+
+Internet-Draft                     ARK                      October 2021
+
+
+   [DCKernel] Initiative, D. C. M., "Kernel Metadata Working Group",
               2001-2008, <https://dublincore.org/groups/kernel/>.
 
    [DOI]      Foundation, I. D., "The Digital Object Identifier (DOI)
@@ -2008,16 +2223,6 @@ Internet-Draft                     ARK                     February 2021
    [NOID]     Kunze, J., "Nice Opaque Identifiers", April 2006,
               <https://metacpan.org/pod/distribution/Noid/noid>.
 
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 36]
-
-Internet-Draft                     ARK                     February 2021
-
-
    [PStatements]
               Kunze, J., "Persistence statements: describing digital
               stickiness", October 2016,
@@ -2027,6 +2232,19 @@ Internet-Draft                     ARK                     February 2021
               Locators", 1996,
               <https://www.internetsociety.org/inet96/proceedings/a4/
               a4_1.htm>.
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 40]
+
+Internet-Draft                     ARK                      October 2021
+
+
+   [shoulderrequest]
+              ARKs.org, "Shoulder Request Form", 2021,
+              <https://n2t.net/e/shoulder_request>.
 
    [RFC0854]  Postel, J. and J. Reynolds, "Telnet Protocol
               Specification", STD 8, RFC 854, DOI 10.17487/RFC0854, May
@@ -2064,16 +2282,6 @@ Internet-Draft                     ARK                     February 2021
               DOI 10.17487/RFC2915, September 2000,
               <https://www.rfc-editor.org/info/rfc2915>.
 
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 37]
-
-Internet-Draft                     ARK                     February 2021
-
-
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
@@ -2082,6 +2290,13 @@ Internet-Draft                     ARK                     February 2021
    [RFC5013]  Kunze, J. and T. Baker, "The Dublin Core Metadata Element
               Set", RFC 5013, DOI 10.17487/RFC5013, August 2007,
               <https://www.rfc-editor.org/info/rfc5013>.
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 41]
+
+Internet-Draft                     ARK                      October 2021
+
 
    [THUMP]    Gamiel, K. and J. Kunze, "The HTTP URL Mapping Protocol",
               August 2007, <https://www.ietf.org/archive/id/draft-kunze-
@@ -2092,17 +2307,17 @@ Appendix A.  ARK Maintenance Agency: arks.org
    The ARK Maintenance Agency [ARKagency] at arks.org has several
    functions.
 
-   o  To manage the registry of organizations that will be assigning
-      ARKs.  Organizations can request or update a NAAN by filling out a
-      form [NAANrequest].
+   *  To manage the registry of organizations that will be assigning
+      ARKs.  Organizations can request or update a NAAN by filling out
+      the NAAN Request Form [NAANrequest].
 
-   o  To be a clearinghouse for information about ARKs, such as best
+   *  To be a clearinghouse for information about ARKs, such as best
       practices, introductory documentation, tutorials, community
       forums, etc.  These supplemental resources help ARK implementor in
       high-level applications across different sectors and disciplines,
       and with a variety of metadata standards.
 
-   o  To be a locus of discussion about future versions of the ARK
+   *  To be a locus of discussion about future versions of the ARK
       specification.
 
 Appendix B.  Looking up NMAs Distributed via DNS
@@ -2122,20 +2337,22 @@ Appendix B.  Looking up NMAs Distributed via DNS
    accommodates a complex set of preferences, orderings, protocols,
    mapping services, regular expression rewriting rules, and DNS record
    types.  This subsection proposes a drastic simplification of it for
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 38]
-
-Internet-Draft                     ARK                     February 2021
-
-
    the special case of ARK mapping authority discovery.  The simplified
    algorithm is called Maptr.  It uses only one DNS record type (NAPTR)
    and restricts most of its field values to constants.  The following
    hypothetical excerpt from a DNS data file for the NAAN known as 12026
    shows three example NAPTR records ready to use with the Maptr
    algorithm.
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 42]
+
+Internet-Draft                     ARK                      October 2021
+
 
      12026.ark.arpa.
      ;; US Library of Congress
@@ -2176,16 +2393,6 @@ Internet-Draft                     ARK                     February 2021
    2.  Submit the query to DNS and retrieve (NAPTR) records, discarding
        any record that does not have "ark" for the service field.
 
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 39]
-
-Internet-Draft                     ARK                     February 2021
-
-
    3.  All remaining records with a flags fields of "h" contain
        candidate NMAs in their replacement fields.  Set them aside, if
        any.
@@ -2195,6 +2402,13 @@ Internet-Draft                     ARK                     February 2021
        be redirected.  For each such record, set query=<replacement>
        then go to step (2).  When all such records have been recursively
        exhausted, go to step (5).
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 43]
+
+Internet-Draft                     ARK                      October 2021
+
 
    5.  All redirected queries have been resolved and a set of candidate
        NMAs has been accumulated from steps (3).  If there are zero
@@ -2232,16 +2446,6 @@ Internet-Draft                     ARK                     February 2021
            }
    }
 
-
-
-
-
-
-Kunze & Bermes           Expires August 25, 2021               [Page 40]
-
-Internet-Draft                     ARK                     February 2021
-
-
    The global database thus distributed via DNS and the Maptr algorithm
    can easily be seen to mirror the contents of the Name Authority
    Table file described in the previous section.
@@ -2251,16 +2455,24 @@ Authors' Addresses
    John A. Kunze
    California Digital Library
    1111 Franklin Street
-   Oakland, CA  94607
-   USA
+   Oakland, CA 94607
+   United States of America
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 44]
+
+Internet-Draft                     ARK                      October 2021
+
 
    Email: jak@ucop.edu
 
 
-   Emmanuelle Bermes
-   Bibliotheque nationale de France
-   Quai Francois Mauriac
-   Paris  75706
+   Emmanuelle Bermès
+   Bibliothèque nationale de France
+   Quai François Mauriac
+   75706 Paris
    France
 
    Email: emmanuelle.bermes@bnf.fr
@@ -2293,4 +2505,16 @@ Authors' Addresses
 
 
 
-Kunze & Bermes           Expires August 25, 2021               [Page 41]
+
+
+
+
+
+
+
+
+
+
+
+
+Kunze & Bermès            Expires 12 April 2022                [Page 45]
